@@ -37,12 +37,17 @@ classDiagram
     + produzLeite(): void
   }
 
-  search_algorithm "1" <|-- "1" wind_trangenic3
-  search_algorithm "1" <|-- "1" wind_trangenic2
-  search_algorithm "1" <|-- "1" wind_trangenic1
-  search_algorithm "1" <|-- "1" wind_trangenic
-  search_algorithm "1" <|-- "1" wind_aco
-  wind_searcher "1" <|-- "N" search_algorithm
+  class utils {
+    + produzLeite(): void
+  }
+
+  search_algorithm "1" <|-- "1" wind_trangenic3: implements
+  search_algorithm "1" <|-- "1" wind_trangenic2: implements 
+  search_algorithm "1" <|-- "1" wind_trangenic1: implements
+  search_algorithm "1" <|-- "1" wind_trangenic: implements
+  search_algorithm "1" <|-- "1" wind_aco: implements
+  wind_searcher "1" --> "N" search_algorithm:  
+  utils --> search_algorithm: uses
 ```
 
 ## Classes 🎒:
