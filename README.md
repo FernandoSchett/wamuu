@@ -1,4 +1,4 @@
-<h1 align="center">🌪️ Search Algorithms for wind and cable problem 🌪️</h1>
+<h1 align="center">🌪️ Wind Searcher 🌪️</h1>
 
 <div align="center">
 	<a href="link_for_webite">
@@ -13,9 +13,7 @@
 - [Pedro]().
 
 ## Special thanks to 🥰:
-- [Felipe Islame](
-http://lattes.cnpq.br/0058216016593116), your experience and knowledge have been invaluable to our progress.
-
+- [Felipe Islame](http://lattes.cnpq.br/0058216016593116), your experience and knowledge have been invaluable to our progress.
 
 ## About 🤔:
 
@@ -55,7 +53,7 @@ First, clone this repository. After that, simply execute the ```file_name``` fil
 - 	
 ## How to contribute 🫂:
 
-Feel free to create a new branch, fork the project, create a new Issue or make a pull request contact one of us to develop at <app_name>.
+Feel free to create a new branch, fork the project, create a new Issue or make a pull request contact one of us to develop at Wind Searcher.
 
 ## Licence 📜:
 
