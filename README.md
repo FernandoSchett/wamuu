@@ -51,7 +51,37 @@ Heres the UML that represents how the application works with their classes.
 
 ```mermaid
 classDiagram
+  class Animal {
+    - nome: String
+    + fazerBarulho(): void
+  }
 
+  class Mamifero {
+    << (A, #FF7700) >>
+    - amamenta: boolean
+    + produzLeite(): void
+  }
+
+  class Ave {
+    << (A, #FF7700) >>
+    - voa: boolean
+    + voar(): void
+  }
+
+  class Cachorro {
+    << (A, #FF7700) >>
+    + late(): void
+  }
+
+  class Gato {
+    << (A, #FF7700) >>
+    + mia(): void
+  }
+
+  Animal <|-- Mamifero
+  Animal <|-- Ave
+  Mamifero <|-- Cachorro
+  Mamifero <|-- Gato
 ```
 
 <h4 align="center">Figure 2 - <app_name> UML.</h4>
