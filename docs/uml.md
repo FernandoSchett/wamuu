@@ -5,34 +5,34 @@ Heres the UML that represents how the application works with their classes.
 ```mermaid
 classDiagram
 
-
   class search_algorithm {
     - nome: String
     + fazerBarulho(): void
   }
 
-  class Mamifero {
+  class wind_aco {
     - amamenta: boolean
     + produzLeite(): void
   }
 
-  class Ave {
+  class wind_trangenic1{
     - voa: boolean
     + voar(): void
   }
 
-  class Cachorro {
+  class wind_trangenic2{
     + late(): void
   }
 
-  class Gato {
+  class wind_trangenic3{
     + mia(): void
   }
 
-  Animal <|-- Mamifero
-  Animal <|-- Ave
-  Mamifero <|-- Cachorro
-  Mamifero <|-- Gato
+  search_algorithm <|-- wind_trangenic3
+  search_algorithm <|-- wind_trangenic2
+  search_algorithm <|-- wind_trangenic1
+  search_algorithm <|-- wind_trangenic
+  search_algorithm <|-- wind_aco
 ```
 
 ## Classes 🎒:
