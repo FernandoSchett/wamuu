@@ -35,4 +35,4 @@ classDiagram
   Mamifero <|-- Gato
 ```
 
-<h4 align="center">Figure 2 - <app_name> UML.</h4>
+## Classes 🎒:
