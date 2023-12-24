@@ -1,16 +1,20 @@
-<h1 align="center">🟠 Search Algorithms for wind and cable problem 🟠</h1>
+<h1 align="center">🌪️ Search Algorithms for wind and cable problem 🌪️</h1>
 
 <div align="center">
 	<a href="link_for_webite">
-	<img height = "250em" src = "https://github.com/FernandoSchett/github_readme_template/assets/80331486/4e4d24ee-efce-41d9-873b-3ececaf1cdd5" />
+	<img height = "250em" src = "https://github.com/FernandoSchett/wind_turb_cable/assets/80331486/498e0f85-d5ca-4a74-9a6e-c2eb7ab14d39" />
     </a>
 </div>
 
 ## Developed by 💻:
+
 - [Fernando Schettini](https://linktr.ee/fernandoschett).
 
+- [Pedro]().
+
 ## Special thanks to 🥰:
-- [Felipe Islame](https://github.com/<profile_username>), Your experience and knowledge have been invaluable to our progress.
+- [Felipe Islame](
+http://lattes.cnpq.br/0058216016593116), your experience and knowledge have been invaluable to our progress.
 
 
 ## About 🤔:
@@ -19,9 +23,6 @@
 
 - 
 - 
-
-
-## Results 📈:
 
 ## Dependencies 🚚:
 
@@ -45,72 +46,13 @@ First, clone this repository. After that, simply execute the ```file_name``` fil
 
 ## How to install 🔬:
 
-## UML‍ 💬:
-
-Heres the UML that represents how the application works with their classes.
-
-```mermaid
-classDiagram
-  class Animal {
-    - nome: String
-    + fazerBarulho(): void
-  }
-
-  class Mamifero {
-    << (A, #FF7700) >>
-    - amamenta: boolean
-    + produzLeite(): void
-  }
-
-  class Ave {
-    << (A, #FF7700) >>
-    - voa: boolean
-    + voar(): void
-  }
-
-  class Cachorro {
-    << (A, #FF7700) >>
-    + late(): void
-  }
-
-  class Gato {
-    << (A, #FF7700) >>
-    + mia(): void
-  }
-
-  Animal <|-- Mamifero
-  Animal <|-- Ave
-  Mamifero <|-- Cachorro
-  Mamifero <|-- Gato
-```
-
-<h4 align="center">Figure 2 - <app_name> UML.</h4>
-
-## Logic Model 🧮:
-
-Here's the logic model that represents how the code works with their classes.
-
-<div align="center">
-	<a href="">
-	<img height = "250em" src = "https://github.com/FernandoSchett/github_readme_template/assets/80331486/4e4d24ee-efce-41d9-873b-3ececaf1cdd5" />
-    </a>
-</div>
-<h4 align="center">Figure 3 - Logic Model.</h4>
-
-## Development Process ⚙️:
-
-Developers used [Trello]() to get things organized, each one using their own branch to code, using names to identify the commit type then merginng the features into develop branch. After testing, the group update the main branch. This application was developed in xx/xx/20xx until xx/xx/20xx.
+## Results 📈:
 
 ### Tools Used 🛠️: 
 
-- [Tool](http:link.com). 
+- [VScode](https://code.visualstudio.com/). 
 - 
-- 
-
-For installing some tools more quickly, you can run the following command at terminal, inside the clonned repository:
-
-    sh ./dependencies/install_tools.sh
-	
+- 	
 ## How to contribute 🫂:
 
 Feel free to create a new branch, fork the project, create a new Issue or make a pull request contact one of us to develop at <app_name>.
