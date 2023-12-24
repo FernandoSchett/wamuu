@@ -41,13 +41,14 @@ classDiagram
     + produzLeite(): void
   }
 
-  search_algorithm "1" <|-- "1" wind_trangenic3: implements
-  search_algorithm "1" <|-- "1" wind_trangenic2: implements 
-  search_algorithm "1" <|-- "1" wind_trangenic1: implements
-  search_algorithm "1" <|-- "1" wind_trangenic: implements
-  search_algorithm "1" <|-- "1" wind_aco: implements
-  wind_searcher "1" --> "N" search_algorithm:  
+  search_algorithm "1" <|-- "1" wind_trangenic3
+  search_algorithm "1" <|-- "1" wind_trangenic2 
+  search_algorithm "1" <|-- "1" wind_trangenic1
+  search_algorithm "1" <|-- "1" wind_trangenic
+  search_algorithm "1" <|-- "1" wind_aco
+  search_algorithm "N" --> "1" wind_searcher: uses  
   utils --> search_algorithm: uses
+  utils --> wind_searcher: uses
 ```
 
 ## Classes 🎒:
