@@ -1,4 +1,4 @@
-<h1 align="center">🌪️ Wamuu Project🌪️</h1>
+<h1 align="center">🌪️ Wamuu Project 🌪️</h1>
 
 <div align="center">
 	<a href="link_for_webite">
