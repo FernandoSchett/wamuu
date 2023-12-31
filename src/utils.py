@@ -65,4 +65,7 @@ def sweep_groups(n: int, starting_index: int, clockwise: bool, tpg: int):
                 j += 1
             j %= tpg
             k += 1
-    return groups
+    i = 0
+    while not 0 in groups[i]:
+        i += 1
+    return groups[i:] + groups[:i]
