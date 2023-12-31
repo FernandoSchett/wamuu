@@ -69,3 +69,10 @@ def sweep_groups(n: int, starting_index: int, clockwise: bool, tpg: int):
     while not 0 in groups[i]:
         i += 1
     return groups[i:] + groups[:i]
+
+# This function sort the group of turbine indices by its distance to the
+# substation in ascending order.
+def sort_group_by_subst_dist(group, dist):
+    subst_dist = [dist[i][i] for i in group]
+    order = sorted(range(len(subst_dist)), key=lambda x: subst_dist[x])
+    return [group[i] for i in order]
