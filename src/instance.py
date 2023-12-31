@@ -85,3 +85,7 @@ class Instance():
     @property
     def Cmin(self):
         return self._Cmin
+    
+    @property
+    def n(self):
+        return len(self._turbs)
