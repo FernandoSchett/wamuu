@@ -31,6 +31,7 @@ class Instance():
 
 
         # Sort turbines by clockwise order relative to the substation.
+        # This way, each turbine will be uniquely identified by its index after sort.
         clockwise_order = []
         h = np.array([1, 0])
         for turb in self._turbs:
