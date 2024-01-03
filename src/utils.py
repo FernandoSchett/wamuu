@@ -1,3 +1,5 @@
+from queue import Queue
+
 def prim(nodes, weight, starting_node):
     mst_nodes = { starting_node }
     fringe_nodes = { node for node in nodes }
@@ -76,3 +78,28 @@ def sort_group_by_subst_dist(group, dist):
     subst_dist = [dist[i][i] for i in group]
     order = sorted(range(len(subst_dist)), key=lambda x: subst_dist[x])
     return [group[i] for i in order]
+
+def get_turb_out_power(group, edges):
+    out_d = dict()
+    in_d = dict()
+    for i in group:
+        in_d[i] = []
+    for edge in edges:
+        out_d[edge[0]] = edge[1]
+        in_d[edge[1]].append(edge[0])
+    s = list()
+    q = Queue()
+    q.put(group[0])
+    while not q.empty():
+        x = q.get()
+        for i in in_d[x]:
+            s.append(i)
+            q.put(i)
+    power = dict()
+    # We assume the power produced by each turbine as always equals to 1.
+    for i in group:
+        power[i] = 1
+    while len(s) > 0:
+        x = s.pop()
+        power[out_d[x]] += power[x]
+    return power
