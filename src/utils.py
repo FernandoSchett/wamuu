@@ -1,3 +1,4 @@
+import numpy as np
 from queue import Queue
 
 def prim(nodes, weight, starting_node):
@@ -108,16 +109,73 @@ def get_turb_out_power(group, edges):
 # cables is the instance set of cables.
 # We assume that the availability of cables is infinite.
 # Returns dictionary of node-cable_index
+# Negative cable index represents an overflow arc and its absolute value
+# is equal to the amount of extra flow.
 def put_cables(power, cables):
     d = dict()
     for node, power_out in power.items():
         i = 0
         while True:
             if i >= len(cables):
-                d[node] = -1
+                d[node] = cables[:-1]['capacity'] - power_out
                 break
             elif power_out <= cables[i]['capacity']:
                 d[node] = i
                 break
             else: i += 1
     return d
+
+def cost(turbs, edges, dist, cables, node_cableindex, subst_node, C, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
+    res = 0
+    # Cable costs
+    for edge in edges:
+        for a, b in edge:
+            if node_cableindex[a] < 0:
+                res += dist[a][b]*cables[:-1]['cpm'] - M1*node_cableindex[a]
+            else:
+                res += dist[a][b]*cables[node_cableindex[a]]['cpm']
+    
+    # Connections to the substation
+    subst_conn = 0
+    for edge in edges:
+        for a, b in edge:
+            if b == subst_node:
+                subst_conn += 1
+    res += max(0, M2*(subst_conn-C))
+
+    # Crossings
+    def intersect(a1, b1, a2, b2):
+        def direction(p, q, r):
+            return (q[1]-p[1])*(r[0]-q[0]) - (q[0]-p[0])*(r[1]-q[1])
+
+        d1 = direction(a1, b1, a2)
+        d2 = direction(a1, b1, b2)
+        d3 = direction(a2, b2, a1)
+        d4 = direction(a2, b2, b1)
+
+        if d1 == 0 and d2 == 0:
+            if (
+                a2[0] <= max(a1[0], b1[0]) and
+                a2[0] >= min(a1[0], b1[0]) and
+                a2[1] <= max(a1[1], b1[1]) and
+                a2[1] >= min(a1[1], b1[1])
+            ): return True
+            return False
+
+        if (
+            ((d1>=0 and d2<=0) or (d1<=0 and d2>=0)) and
+            ((d3>=0 and d4<=0) or (d3<=0 and d4>=0))
+        ): return True
+        return False
+
+    crossings = 0
+    for i in range(len(edges)):
+        for j in range(i+1, len(edges)):
+            crossings += intersect(turbs[edges[i][0]], turbs[edges[i][1]], turbs[edges[j][0]], turbs[edges[j][1]])
+    res += M3*crossings
+
+    # Proper Tree
+    # Maybe it could be improved by analysing the whole tree.
+    if len(edges) != len(turbs): res += M4
+
+    return res
