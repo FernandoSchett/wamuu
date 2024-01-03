@@ -103,3 +103,21 @@ def get_turb_out_power(group, edges):
         x = s.pop()
         power[out_d[x]] += power[x]
     return power
+
+# power is a dictionary of node as keys and power out value as values.
+# cables is the instance set of cables.
+# We assume that the availability of cables is infinite.
+# Returns dictionary of node-cable_index
+def put_cables(power, cables):
+    d = dict()
+    for node, power_out in power.items():
+        i = 0
+        while True:
+            if i >= len(cables):
+                d[node] = -1
+                break
+            elif power_out <= cables[i]['capacity']:
+                d[node] = i
+                break
+            else: i += 1
+    return d
