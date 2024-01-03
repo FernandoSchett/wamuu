@@ -9,15 +9,15 @@ class Instance():
                  C: int = 0):
         with open(f'{path.join(instance_dir, instance)}.turb') as f:
             line = f.readline().split()
-            self._subst = (float(line[0]), float(line[1]))
+            self._delta = (float(line[0]), float(line[1]))
             self._Cmin = -int(line[2]) - 1
-            turbs = []
+            nodes = [[0, 0]]
             # We assume the power produced by each turbine as always equals to 1.
             for line in f:
                 line = line.split()
-                turbs.append([
-                    float(line[0]) - self._subst[0],
-                    float(line[1]) - self._subst[1]
+                nodes.append([
+                    float(line[0]) - self._delta[0],
+                    float(line[1]) - self._delta[1]
                 ])
         
         if C == 0:
@@ -27,28 +27,27 @@ class Instance():
         else:
             self._C = C
         
-        self._turbs = np.array(turbs)
+        self._nodes = np.array(nodes)
 
 
         # Sort turbines by clockwise order relative to the substation.
         # This way, each turbine will be uniquely identified by its index after sort.
         clockwise_order = []
         h = np.array([1, 0])
-        for turb in self._turbs:
+        for turb in self._nodes[1::]:
             t = turb / np.linalg.norm(turb)
             d = np.dot(h, t)
             angle = np.arccos(d)
             clockwise_order.append(angle)
-        self._turbs = self._turbs[np.argsort(clockwise_order)]
+        self._nodes[1::] = self._nodes[1::][np.argsort(clockwise_order)]
 
 
-        # Create the matrix of distances between each turbine i to each turbine j.
-        # The distance of turbine i to itself is its distance to the substation.
-        self._dist = np.empty((len(self._turbs), len(self._turbs)))
-        for i in range(len(self._turbs)):
-            self._dist[i][i] = np.linalg.norm(self._turbs[i])
-            for j in range(i+1, len(self._turbs)):
-                self._dist[i][j] = np.linalg.norm(self._turbs[i] - self._turbs[j])
+        # Create the matrix of distances between each node i to each node j.
+        self._dist = np.empty((len(self._nodes), len(self._nodes)))
+        for i in range(len(self._nodes)):
+            self._dist[i][i] = 0.0
+            for j in range(i+1, len(self._nodes)):
+                self._dist[i][j] = np.linalg.norm(self._nodes[i] - self._nodes[j])
                 self._dist[j][i] = self._dist[i][j]
         
 
@@ -63,12 +62,12 @@ class Instance():
                 })
     
     @property
-    def subst(self):
-        return self._subst
+    def delta(self):
+        return self._delta
     
     @property
-    def turbs(self):
-        return self._turbs
+    def nodes(self):
+        return self._nodes
     
     @property
     def cables(self):
@@ -88,4 +87,4 @@ class Instance():
     
     @property
     def n(self):
-        return len(self._turbs)
+        return len(self._nodes)-1

@@ -26,22 +26,22 @@ def prim(nodes, weight, starting_node):
 
 # This function create groups of indices for the sweep algorithm
 # as defined in paper.
-# Make sure the value of starting_index be in [0,n[
+# Make sure the value of starting_index be in [1,n]
 def sweep_groups(n: int, starting_index: int, clockwise: bool, tpg: int):
     groups = []
     i = starting_index
     j = 0
     k = 0
     if clockwise:
-        while i < n:
+        while i <= n:
             groups.append([])
-            while j < tpg and i < n:
+            while j < tpg and i <= n:
                 groups[k].append(i)
                 i += 1
                 j += 1
             j %= tpg
             k += 1
-        i = 0
+        i = 1
         while i < starting_index:
             groups.append([])
             while j < tpg and i < starting_index:
@@ -51,15 +51,15 @@ def sweep_groups(n: int, starting_index: int, clockwise: bool, tpg: int):
             j %= tpg
             k += 1
     else:
-        while i >= 0:
+        while i >= 1:
             groups.append([])
-            while j < tpg and i >= 0:
+            while j < tpg and i >= 1:
                 groups[k].append(i)
                 i -= 1
                 j += 1
             j %= tpg
             k += 1
-        i = n - 1
+        i = n
         while i > starting_index:
             groups.append([])
             while j < tpg and i > starting_index:
@@ -69,14 +69,14 @@ def sweep_groups(n: int, starting_index: int, clockwise: bool, tpg: int):
             j %= tpg
             k += 1
     i = 0
-    while not 0 in groups[i]:
+    while not 1 in groups[i]:
         i += 1
     return groups[i:] + groups[:i]
 
 # This function sort the group of turbine indices by its distance to the
 # substation in ascending order.
 def sort_group_by_subst_dist(group, dist):
-    subst_dist = [dist[i][i] for i in group]
+    subst_dist = [dist[i][0] for i in group]
     order = sorted(range(len(subst_dist)), key=lambda x: subst_dist[x])
     return [group[i] for i in order]
 
@@ -125,23 +125,23 @@ def put_cables(power, cables):
             else: i += 1
     return d
 
-def cost(turbs, edges, dist, cables, node_cableindex, subst_node, C, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
+def cost(nodes, edges, dist, cables, node_cableindex, C, M1=1e9, M2=1e9, M3=1e9, M4=1e10, debug=False):
     res = 0
     # Cable costs
     for edge in edges:
-        for a, b in edge:
-            if node_cableindex[a] < 0:
-                res += dist[a][b]*cables[:-1]['cpm'] - M1*node_cableindex[a]
-            else:
-                res += dist[a][b]*cables[node_cableindex[a]]['cpm']
+        a, b = edge
+        if node_cableindex[a] < 0:
+            res += dist[a][b]*cables[:-1]['cpm'] - M1*node_cableindex[a]
+        else:
+            res += dist[a][b]*cables[node_cableindex[a]]['cpm']
+    if debug: print(f'Cable costs: {res}')
     
     # Connections to the substation
     subst_conn = 0
     for edge in edges:
-        for a, b in edge:
-            if b == subst_node:
-                subst_conn += 1
+        if edge[1] == 0: subst_conn += 1
     res += max(0, M2*(subst_conn-C))
+    if debug: print(f'Connections to the substation: {max(0, M2*(subst_conn-C))}')
 
     # Crossings
     def intersect(a1, b1, a2, b2):
@@ -155,27 +155,29 @@ def cost(turbs, edges, dist, cables, node_cableindex, subst_node, C, M1=1e9, M2=
 
         if d1 == 0 and d2 == 0:
             if (
-                a2[0] <= max(a1[0], b1[0]) and
-                a2[0] >= min(a1[0], b1[0]) and
-                a2[1] <= max(a1[1], b1[1]) and
-                a2[1] >= min(a1[1], b1[1])
+                a2[0] < max(a1[0], b1[0]) and
+                a2[0] > min(a1[0], b1[0]) and
+                a2[1] < max(a1[1], b1[1]) and
+                a2[1] > min(a1[1], b1[1])
             ): return True
             return False
 
         if (
-            ((d1>=0 and d2<=0) or (d1<=0 and d2>=0)) and
-            ((d3>=0 and d4<=0) or (d3<=0 and d4>=0))
+            ((d1>0 and d2<0) or (d1<0 and d2>0)) and
+            ((d3>0 and d4<0) or (d3<0 and d4>0))
         ): return True
         return False
 
     crossings = 0
     for i in range(len(edges)):
         for j in range(i+1, len(edges)):
-            crossings += intersect(turbs[edges[i][0]], turbs[edges[i][1]], turbs[edges[j][0]], turbs[edges[j][1]])
+            crossings += intersect(nodes[edges[i][0]], nodes[edges[i][1]], nodes[edges[j][0]], nodes[edges[j][1]])
     res += M3*crossings
+    if debug: print(f'Crossings: {M3*crossings}')
 
     # Proper Tree
     # Maybe it could be improved by analysing the whole tree.
-    if len(edges) != len(turbs): res += M4
+    res += M4*(len(edges) != len(nodes)-1)
+    if debug: print(f'Proper Tree: {M4*(len(edges) != len(nodes)-1)}')
 
     return res
