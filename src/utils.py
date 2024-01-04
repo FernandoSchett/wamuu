@@ -117,7 +117,7 @@ def put_cables(power, cables):
         i = 0
         while True:
             if i >= len(cables):
-                d[node] = cables[:-1]['capacity'] - power_out
+                d[node] = cables[-1]['capacity'] - power_out
                 break
             elif power_out <= cables[i]['capacity']:
                 d[node] = i
@@ -156,7 +156,7 @@ def cost(nodes, edges, dist, cables, node_cableindex, C, M1=1e9, M2=1e9, M3=1e9,
     for edge in edges:
         a, b = edge
         if node_cableindex[a] < 0:
-            res += dist[a][b]*cables[:-1]['cpm'] - M1*node_cableindex[a]
+            res += dist[a][b]*cables[-1]['cpm'] - M1*node_cableindex[a]
         else:
             res += dist[a][b]*cables[node_cableindex[a]]['cpm']
     if debug: print(f'Cable costs: {res}')
