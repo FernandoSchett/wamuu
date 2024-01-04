@@ -60,6 +60,8 @@ class Instance():
                     'cpm': int(line[1]),
                     'availability': int(line[2]),
                 })
+        # Sort cables in capacity ascending order.
+        self._cables = sorted(self._cables, key=lambda cable: cable['capacity'])
     
     @property
     def delta(self):

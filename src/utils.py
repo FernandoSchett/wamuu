@@ -125,6 +125,31 @@ def put_cables(power, cables):
             else: i += 1
     return d
 
+# Checks if two line segments a1b1 and a2b2 crosses each other.
+def intersect(a1, b1, a2, b2):
+    def direction(p, q, r):
+        return (q[1]-p[1])*(r[0]-q[0]) - (q[0]-p[0])*(r[1]-q[1])
+
+    d1 = direction(a1, b1, a2)
+    d2 = direction(a1, b1, b2)
+    d3 = direction(a2, b2, a1)
+    d4 = direction(a2, b2, b1)
+
+    if d1 == 0 and d2 == 0:
+        if (
+            a2[0] < max(a1[0], b1[0]) and
+            a2[0] > min(a1[0], b1[0]) and
+            a2[1] < max(a1[1], b1[1]) and
+            a2[1] > min(a1[1], b1[1])
+        ): return True
+        return False
+
+    if (
+        ((d1>0 and d2<0) or (d1<0 and d2>0)) and
+        ((d3>0 and d4<0) or (d3<0 and d4>0))
+    ): return True
+    return False
+
 def cost(nodes, edges, dist, cables, node_cableindex, C, M1=1e9, M2=1e9, M3=1e9, M4=1e10, debug=False):
     res = 0
     # Cable costs
@@ -144,30 +169,6 @@ def cost(nodes, edges, dist, cables, node_cableindex, C, M1=1e9, M2=1e9, M3=1e9,
     if debug: print(f'Connections to the substation: {max(0, M2*(subst_conn-C))}')
 
     # Crossings
-    def intersect(a1, b1, a2, b2):
-        def direction(p, q, r):
-            return (q[1]-p[1])*(r[0]-q[0]) - (q[0]-p[0])*(r[1]-q[1])
-
-        d1 = direction(a1, b1, a2)
-        d2 = direction(a1, b1, b2)
-        d3 = direction(a2, b2, a1)
-        d4 = direction(a2, b2, b1)
-
-        if d1 == 0 and d2 == 0:
-            if (
-                a2[0] < max(a1[0], b1[0]) and
-                a2[0] > min(a1[0], b1[0]) and
-                a2[1] < max(a1[1], b1[1]) and
-                a2[1] > min(a1[1], b1[1])
-            ): return True
-            return False
-
-        if (
-            ((d1>0 and d2<0) or (d1<0 and d2>0)) and
-            ((d3>0 and d4<0) or (d3<0 and d4>0))
-        ): return True
-        return False
-
     crossings = 0
     for i in range(len(edges)):
         for j in range(i+1, len(edges)):
