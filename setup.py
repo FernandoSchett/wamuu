@@ -4,7 +4,7 @@ Last changed:   05/01/2024 11:43
 Purpose:        Code configures the distribution of a Python package using setuptools, including package details 
 Authors:        Fernando Antonio Marques Schettini      
 Usage: 
-	HowToExecute:   python3 setup.py sdist bdist_wheel
+    HowToExecute:   python3 setup.py sdist bdist_wheel
     HowToUpload:    twine upload --repository-url https://upload.pypi.org/legacy/ -u __token__ -p your-token dist/*        
 """
 
