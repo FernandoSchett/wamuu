@@ -5,7 +5,7 @@ Purpose:        Code configures the distribution of a Python package using setup
 Authors:        Fernando Antonio Marques Schettini      
 Usage: 
 	HowToExecute:   python3 setup.py sdist bdist_wheel
-    HowToUpload: twine upload --repository-url https://upload.pypi.org/legacy/ -u __token__ -p your-token dist/*        
+    HowToUpload:    twine upload --repository-url https://upload.pypi.org/legacy/ -u __token__ -p your-token dist/*        
 """
 
 from setuptools import setup, find_packages
@@ -40,4 +40,7 @@ setup(
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
     ]
+    project_urls={
+        'Source': 'https://github.com/FernandoSchett/wamuu/tree/main'
+    }
 )
