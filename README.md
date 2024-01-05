@@ -9,7 +9,7 @@
 ## Developed by 💻:
 
 - [Fernando Schettini](https://linktr.ee/fernandoschett).
-- [Pedro]().
+- [Pedro Miranda]().
 
 ## Special thanks to 🥰:
 - [Felipe Islame](http://lattes.cnpq.br/0058216016593116), your experience and knowledge have been invaluable to our progress.
@@ -23,7 +23,7 @@
 
 ## Dependencies 🚚:
 
-The project dependencies are described in  ```./dependencies/requirements.``` within the repository. In summary, heres what you're gonna need in order to run the project:
+The project dependencies are described in  ```./dependencies/requirements.txt``` within the repository. In summary, heres what you're gonna need in order to run the project:
 
 - [```dependencie <version>```](http:link.com).
 - 
@@ -37,13 +37,16 @@ Make sure you have all Dependencies before running the project.
 
 ## How to install 🔬:
 
+To install Wamuu Project and use it on your own code, use:
+
+	pip install wamuu
+
 ## Results 📈:
 
 ### Tools Used 🛠️: 
 
 - [VScode](https://code.visualstudio.com/). 
-- 
-- 	
+
 ## How to contribute 🫂:
 
 Feel free to create a new branch, fork the project, create a new Issue or make a pull request contact one of us to develop at Wamuu Project.
