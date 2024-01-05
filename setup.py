@@ -39,7 +39,7 @@ setup(
         "Operating System :: Unix",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
-    ]
+    ],
     project_urls={
         'Source': 'https://github.com/FernandoSchett/wamuu/tree/main'
     }
