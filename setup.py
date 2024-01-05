@@ -10,7 +10,7 @@ Usage:
 
 from setuptools import setup, find_packages
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 DESCRIPTION = 'Find best cable positioning'
 LONG_DESCRIPTION = 'Support tool, offers a set of Python classes designed for forecasting optimal wind turbine placements and efficient cable connections in wind energy systems.'
 
