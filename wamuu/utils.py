@@ -1,6 +1,6 @@
 """
 File:           utils.py
-Last changed:   24/12/2023 13:24
+Last changed:   06/01/2023 10:53
 Purpose:        here are the static utils functions that will be used on all sets of tha application         
 Authors:        Fernando Antonio Marques Schettini, Pedro miranda         
 """ 
