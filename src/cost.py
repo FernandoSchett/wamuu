@@ -1,6 +1,6 @@
 from utils import intersect
 
-def cost(instance, solution, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
+def cost(instance, solution, M1=1e9, M2=1e9, M3=1e9, M4=1e10, simple=False):
     res = 0
     # Cable costs
     for x in solution:
@@ -14,6 +14,8 @@ def cost(instance, solution, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
     subst_conn = 0
     for x in solution: subst_conn += x[0][1] == 0
     res += max(0, M2*(subst_conn-instance.C))
+
+    if simple: return res
 
     # Crossings
     crossings = 0
