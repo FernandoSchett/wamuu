@@ -160,3 +160,44 @@ cython_debug/
 #.idea/
 
 /data/
+# System files
+.DS_Store
+
+# Virtual environments
+venv/
+env/
+__pycache__/
+
+# Byte-compiled / compiled / Python module files
+*.pyc
+*.pyo
+__pycache__/
+
+# Logs and temporary files
+*.log
+*.swp
+*.tmp
+
+# IDE-specific configuration files
+.idea/
+.vscode/
+
+# Pipenv
+/.venv/
+/Pipfile.lock
+
+# Python egg/distribution/
+*.egg-info/
+dist/
+
+# Compiled Python files
+__pycache__/
+
+# OS-generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
