@@ -1,6 +1,7 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
+# conda install --file dependencies/requirements.txt -c conda-forge
 _libgcc_mutex=0.1=main
 _openmp_mutex=5.1=1_gnu
 anyio=4.2.0=pyhd8ed1ab_0
@@ -24,14 +25,17 @@ cached_property=1.5.2=pyha770c72_1
 certifi=2023.11.17=py312h06a4308_0
 cffi=1.16.0=py312h5eee18b_0
 charset-normalizer=3.3.2=pyhd8ed1ab_0
+cmarkgfm=2022.10.27=py312h5eee18b_0
 comm=0.1.4=pyhd8ed1ab_0
 contourpy=1.2.0=py312hdb19cb5_0
+cryptography=41.0.7=py312hdda0065_0
 cycler=0.11.0=pyhd3eb1b0_0
 cyrus-sasl=2.1.28=h52b45da_1
 dbus=1.13.18=hb2f20db_0
 debugpy=1.6.7=py312h6a678d5_0
 decorator=5.1.1=pyhd8ed1ab_0
 defusedxml=0.7.1=pyhd8ed1ab_0
+docutils=0.18.1=py312h06a4308_3
 entrypoints=0.4=pyhd8ed1ab_0
 exceptiongroup=1.2.0=pyhd8ed1ab_0
 executing=2.0.1=pyhd8ed1ab_0
@@ -53,7 +57,9 @@ intel-openmp=2023.1.0=hdb19cb5_46306
 ipykernel=6.28.0=pyhd33586a_0
 ipython=8.19.0=pyh707e725_0
 isoduration=20.11.0=pyhd8ed1ab_0
+jaraco.classes=3.2.1=pyhd3eb1b0_0
 jedi=0.19.1=pyhd8ed1ab_0
+jeepney=0.7.1=pyhd3eb1b0_0
 jinja2=3.1.2=pyhd8ed1ab_1
 jpeg=9e=h5eee18b_1
 json5=0.9.14=pyhd8ed1ab_0
@@ -70,6 +76,7 @@ jupyter_server_terminals=0.5.1=pyhd8ed1ab_0
 jupyterlab=4.0.10=pyhd8ed1ab_0
 jupyterlab_pygments=0.3.0=pyhd8ed1ab_0
 jupyterlab_server=2.25.2=pyhd8ed1ab_0
+keyring=23.13.1=py312h06a4308_0
 kiwisolver=1.4.4=py312h6a678d5_0
 krb5=1.20.1=h143b758_1
 lcms2=2.12=h3be6417_0
@@ -99,15 +106,18 @@ libxcb=1.15=h7f8727e_0
 libxkbcommon=1.0.1=h5eee18b_1
 libxml2=2.10.4=hf1b16e4_1
 lz4-c=1.9.4=h6a678d5_0
+markdown-it-py=2.2.0=py312h06a4308_1
 markupsafe=2.1.1=py312h5eee18b_0
 matplotlib=3.8.0=py312h06a4308_0
 matplotlib-base=3.8.0=py312h526ad5a_0
 matplotlib-inline=0.1.6=pyhd8ed1ab_0
+mdurl=0.1.0=py312h06a4308_0
 mistune=3.0.2=pyhd8ed1ab_0
 mkl=2023.1.0=h213fc3f_46344
 mkl-service=2.4.0=py312h5eee18b_1
 mkl_fft=1.3.8=py312h5eee18b_0
 mkl_random=1.2.4=py312hdb19cb5_0
+more-itertools=10.1.0=py312h06a4308_0
 munkres=1.1.4=py_0
 mysql=5.7.24=h721c034_2
 nbclient=0.8.0=pyhd8ed1ab_0
@@ -132,6 +142,7 @@ pexpect=4.8.0=pyh1a96a4e_2
 pickleshare=0.7.5=py_1003
 pillow=10.0.1=py312ha6cbd5a_0
 pip=23.3.1=py312h06a4308_0
+pkginfo=1.9.6=py312h06a4308_0
 pkgutil-resolve-name=1.3.10=pyhd8ed1ab_1
 platformdirs=4.1.0=pyhd8ed1ab_0
 ply=3.11=py312h06a4308_1
@@ -155,11 +166,16 @@ pyyaml=6.0.1=py312h5eee18b_0
 pyzmq=25.1.0=py312h6a678d5_0
 qt-main=5.15.2=h53bd1ea_10
 readline=8.2=h5eee18b_0
+readme_renderer=40.0=py312h06a4308_0
 referencing=0.32.0=pyhd8ed1ab_0
 requests=2.31.0=pyhd8ed1ab_0
+requests-toolbelt=1.0.0=py312h06a4308_0
 rfc3339-validator=0.1.4=pyhd8ed1ab_0
+rfc3986=1.4.0=pyhd3eb1b0_0
 rfc3986-validator=0.1.1=pyh9f0ad1d_0
+rich=13.3.5=py312h06a4308_1
 rpds-py=0.10.6=py312hb02cf49_0
+secretstorage=3.3.1=py312h06a4308_1
 send2trash=1.8.2=pyh41d4057_0
 setuptools=68.2.2=py312h06a4308_0
 sip=6.7.12=py312h6a678d5_0
@@ -175,6 +191,7 @@ tk=8.6.12=h1ccaba5_0
 tomli=2.0.1=pyhd8ed1ab_0
 tornado=6.3.3=py312h5eee18b_0
 traitlets=5.14.0=pyhd8ed1ab_0
+twine=4.0.2=py312h06a4308_0
 types-python-dateutil=2.8.19.14=pyhd8ed1ab_0
 typing-extensions=4.9.0=hd8ed1ab_0
 typing_extensions=4.9.0=pyha770c72_0
@@ -193,5 +210,3 @@ zeromq=4.3.4=h2531618_0
 zipp=3.17.0=pyhd8ed1ab_0
 zlib=1.2.13=h5eee18b_0
 zstd=1.5.5=hc292b87_0
-setuptools
-twine
