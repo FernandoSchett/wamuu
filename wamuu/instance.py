@@ -62,6 +62,19 @@ class Instance():
                 })
         # Sort cables in capacity ascending order.
         self._cables = sorted(self._cables, key=lambda cable: cable['capacity'])
+
+        self._max_cable_capacity = self._cables[-1]['capacity']
+
+        # Aux list for getting cable index from node_power
+        self._cable_indices = [None for _ in range(self._max_cable_capacity+1)]
+        i = 0
+        j = 1
+        while j < len(self._cable_indices):
+            if j > self._cables[i]['capacity']:
+                i += 1
+            else:
+                self._cable_indices[j] = i
+                j += 1
     
     @property
     def delta(self):
@@ -90,3 +103,11 @@ class Instance():
     @property
     def n(self):
         return len(self._nodes)-1
+    
+    @property
+    def max_cable_capacity(self):
+        return self._max_cable_capacity
+    
+    def get_cable_index_from_node_power(self, node_power):
+        node_power = min(node_power, self._max_cable_capacity)
+        return self._cable_indices[node_power]

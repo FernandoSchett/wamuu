@@ -5,10 +5,9 @@ def cost(instance, solution, M1=1e9, M2=1e9, M3=1e9, M4=1e10, simple=False):
     # Cable costs
     for x in solution:
         a, b = x[0]
-        if x[1] < 0:
-            res += instance.dist[a][b]*instance.cables[-1]['cpm'] - M1*x[1]
-        else:
-            res += instance.dist[a][b]*instance.cables[x[1]]['cpm']
+        p = x[1]
+        c = instance.get_cable_index_from_node_power(p)
+        res += instance.dist[a][b]*instance.cables[c]['cpm'] + M1*max(0, p-instance.max_cable_capacity)
     
     # Connections to the substation
     subst_conn = 0
