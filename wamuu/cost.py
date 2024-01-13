@@ -1,13 +1,17 @@
 from utils import intersect
 
+def cable_cost(instance, node_a, node_b, node_power, M1):
+    c = instance.get_cable_index_from_node_power(node_power)
+    length_cost = instance.dist[node_a][node_b]*instance.cables[c]['cpm']
+    overflow_cost = M1*max(0, node_power-instance.max_cable_capacity)
+    return length_cost + overflow_cost
+
+
 def cost(instance, solution, M1=1e9, M2=1e9, M3=1e9, M4=1e10, simple=False):
     res = 0
     # Cable costs
     for x in solution:
-        a, b = x[0]
-        p = x[1]
-        c = instance.get_cable_index_from_node_power(p)
-        res += instance.dist[a][b]*instance.cables[c]['cpm'] + M1*max(0, p-instance.max_cable_capacity)
+        res += cable_cost(instance, x[0][0], x[0][1], x[1], M1)
     
     # Connections to the substation
     subst_conn = 0
