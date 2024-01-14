@@ -136,17 +136,22 @@ def intersect(a1, b1, a2, b2):
     d4 = direction(a2, b2, b1)
 
     if d1 == 0 and d2 == 0:
-        if (
-            a2[0] < max(a1[0], b1[0]) and
-            a2[0] > min(a1[0], b1[0]) and
-            a2[1] < max(a1[1], b1[1]) and
-            a2[1] > min(a1[1], b1[1])
-        ): return True
+        if b1[0] < a1[0]: a1, b1 = b1, a1
+        if b2[0] < a2[0]: a2, b2 = b2, a2
+        if a1[0] <= a2[0] and b1[0] >= b2[0]: return True
+        if a1[0] >= a2[0] and b1[0] <= b2[0]: return True
         return False
+        # if (
+        #     a2[0] <= max(a1[0], b1[0]) and
+        #     a2[0] >= min(a1[0], b1[0]) and
+        #     a2[1] <= max(a1[1], b1[1]) and
+        #     a2[1] >= min(a1[1], b1[1])
+        # ): return True
+        # return False
 
     if (
-        ((d1>0 and d2<0) or (d1<0 and d2>0)) and
-        ((d3>0 and d4<0) or (d3<0 and d4>0))
+        ((d1>=0 and d2<=0) or (d1<=0 and d2>=0)) and
+        ((d3>=0 and d4<=0) or (d3<=0 and d4>=0))
     ): return True
     return False
 
@@ -172,6 +177,11 @@ def cost(nodes, edges, dist, cables, node_cableindex, C, M1=1e9, M2=1e9, M3=1e9,
     crossings = 0
     for i in range(len(edges)):
         for j in range(i+1, len(edges)):
+            if (
+                edges[i][0] == edges[j][1] or
+                edges[i][1] == edges[j][0] or
+                edges[i][1] == edges[j][1]
+                ): continue
             crossings += intersect(nodes[edges[i][0]], nodes[edges[i][1]], nodes[edges[j][0]], nodes[edges[j][1]])
     res += M3*crossings
     if debug: print(f'Crossings: {M3*crossings}')
@@ -182,3 +192,8 @@ def cost(nodes, edges, dist, cables, node_cableindex, C, M1=1e9, M2=1e9, M3=1e9,
     if debug: print(f'Proper Tree: {M4*(len(edges) != len(nodes)-1)}')
 
     return res
+
+def prim_solution(instance):
+    e = prim(range(instance.n+1), instance.dist, 0)
+    p = get_turb_out_power(range(instance.n+1), e)
+    return [((ei[0], ei[1]), p[ei[0]]) for ei in e]

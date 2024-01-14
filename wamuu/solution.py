@@ -1,13 +1,12 @@
-from cost import cost, cable_cost, intersect
+from cost import cable_cost, intersect
 
 class Solution:
-    def __init__(self, instance, solution, cost_parameters={}):
+    def __init__(self, instance, solution, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
         self._instance = instance
-        self._M1 = cost_parameters.get('M1') or 1e9
-        self._M2 = cost_parameters.get('M2') or 1e9
-        self._M3 = cost_parameters.get('M3') or 1e9
-        self._M4 = cost_parameters.get('M4') or 1e10
-        self._cost = cost(instance, solution, self._M1, self._M2, self._M3, self._M4)
+        self._M1 = M1
+        self._M2 = M2
+        self._M3 = M3
+        self._M4 = M4
 
         self._node_up = [None for _ in instance.nodes]
         self._node_down = [set() for _ in instance.nodes]
@@ -17,13 +16,12 @@ class Solution:
         self._crossings = 0
 
         self._checkpoint = [
-            self._cost,
-            self._node_up.copy(),
-            self._node_down.copy(),
-            self._node_power.copy(),
             self._cables_cost,
             self._subst_conn,
-            self._crossings
+            self._crossings,
+            None,
+            None,
+            self._node_power.copy()
         ]
         
         for x in solution:
@@ -36,6 +34,11 @@ class Solution:
         
         for i in range(len(solution)):
             for j in range(i+1, len(solution)):
+                if (
+                    solution[i][0][0] == solution[j][0][1] or
+                    solution[i][0][1] == solution[j][0][0] or
+                    solution[i][0][1] == solution[j][0][1]
+                    ): continue
                 self._crossings += intersect(
                     instance.nodes[solution[i][0][0]],
                     instance.nodes[solution[i][0][1]],
@@ -79,64 +82,75 @@ class Solution:
     #     dfs(0)
     #     return sum(vis) == self._instance.n+1
 
-    def create_checkpoint(self):
-        self._checkpoint[0] = self._cost,
-        self._checkpoint[1] = self._node_up.copy(),
-        self._checkpoint[2] = self._node_down.copy(),
-        self._checkpoint[3] = self._node_power.copy(),
-        self._checkpoint[4] = self._cables_cost,
-        self._checkpoint[5] = self._subst_conn,
-        self._checkpoint[6] = self._crossings
+    def _change_edge(self, node_a, node_b):
+        self._node_down[self._node_up[node_a]].remove(node_a)
+        self._node_up[node_a] = node_b
+        self._node_down[node_b].add(node_a)
+
+    def create_checkpoint(self, node):
+        self._checkpoint[0] = self._cables_cost
+        self._checkpoint[1] = self._subst_conn
+        self._checkpoint[2] = self._crossings
+        self._checkpoint[3] = node
+        self._checkpoint[4] = self._node_up[node]
+        self._checkpoint[5] = self._node_power.copy()
     
     def restore(self):
-        self._cost = self._checkpoint[0]
-        self._node_up = self._checkpoint[1]
-        self._node_down = self._checkpoint[2]
-        self._node_power = self._checkpoint[3]
-        self._cables_cost = self._checkpoint[4]
-        self._subst_conn = self._checkpoint[5]
-        self._crossings = self._checkpoint[6]
+        self._cables_cost = self._checkpoint[0]
+        self._subst_conn = self._checkpoint[1]
+        self._crossings = self._checkpoint[2]
+        self._change_edge(self._checkpoint[3], self._checkpoint[4])
+        self._node_power = self._checkpoint[5]
     
     def is_in_cc(self, node_a, node_b):
-        def dfs_down(node_to_find, curr_node):
-            if node_to_find == curr_node: return True
-            for node in self._node_down[curr_node]:
-                if dfs_down(node_to_find, node): return True
-            return False
-        return dfs_down(node_a, node_b)
+        if node_a == node_b: return True
+        for node in self._node_down[node_a]:
+            if self.is_in_cc(node, node_b): return True
+        return False
     
     def one_opt(self, node_a, node_b):
         node = self._node_up[node_a]
-        self._cost -= cable_cost(self._instance, node_a, node, self._node_power[node_a], self._M1)
+        self._cables_cost -= cable_cost(self._instance, node_a, node, self._node_power[node_a], self._M1)
         while node != 0:
             next_node = self._node_up[node]
-            self._cost -= cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
+            self._cables_cost -= cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
             self._node_power[node] -= self._node_power[node_a]
-            self._cost += cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
+            self._cables_cost += cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
             node = next_node
         node = node_b
-        self._cost += cable_cost(self._instance, node_a, node, self._node_power[node_a], self._M1)
+        self._cables_cost += cable_cost(self._instance, node_a, node, self._node_power[node_a], self._M1)
         while node != 0:
             next_node = self._node_up[node]
-            self._cost -= cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
+            self._cables_cost -= cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
             self._node_power[node] += self._node_power[node_a]
-            self._cost += cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
+            self._cables_cost += cable_cost(self._instance, node, next_node, self._node_power[node], self._M1)
             node = node = next_node
         
         self._subst_conn -= self._node_up[node_a] == 0
         self._subst_conn += node_b == 0
 
         for i in range(1, self._instance.n+1):
+            if (
+                i == node_a or
+                i == self._node_up[node_a] or
+                self._node_up[i] == node_a or
+                self._node_up[i] == self._node_up[node_a]
+                ): continue
             self._crossings -= intersect(
                 self._instance.nodes[node_a],
                 self._instance.nodes[self._node_up[node_a]],
                 self._instance.nodes[i],
                 self._instance.nodes[self._node_up[i]])
 
-        self.node_up[node_a] = node_b
-        self.node_down[node_b].add(node_a)
+        self._change_edge(node_a, node_b)
 
         for i in range(1, self._instance.n+1):
+            if (
+                i == node_a or
+                i == self._node_up[node_a] or
+                self._node_up[i] == node_a or
+                self._node_up[i] == self._node_up[node_a]
+                ): continue
             self._crossings += intersect(
                 self._instance.nodes[node_a],
                 self._instance.nodes[node_b],

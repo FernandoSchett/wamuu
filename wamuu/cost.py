@@ -24,6 +24,11 @@ def cost(instance, solution, M1=1e9, M2=1e9, M3=1e9, M4=1e10, simple=False):
     crossings = 0
     for i in range(len(solution)):
         for j in range(i+1, len(solution)):
+            if (
+                solution[i][0][0] == solution[j][0][1] or
+                solution[i][0][1] == solution[j][0][0] or
+                solution[i][0][1] == solution[j][0][1]
+                ): continue
             crossings += intersect(
                 instance.nodes[solution[i][0][0]],
                 instance.nodes[solution[i][0][1]],
