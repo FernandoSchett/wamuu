@@ -49,15 +49,14 @@ class Solution:
     def instance(self):
         return self._instance
     
+    # It is not necessary to compute if the solution is a proper tree
+    # as we take care of it for every step of manipulation
     @property
     def cost(self):
         return (
             self._cables_cost +
             self._M2*max(0, self._subst_conn-self._instance.C) +
             self._M3*self._crossings
-            # It is not necessary to compute if the solution is a proper tree
-            # as we take care of it for every step of manipulation
-            # self._M4*self._is_proper_tree()
         )
     
     @property
@@ -71,23 +70,13 @@ class Solution:
     @property
     def node_power(self):
         return self._node_power
-    
-    # def _is_proper_tree(self):
-    #     vis = [False for _ in self._instance.nodes]
-    #     def dfs(node):
-    #         if vis[node]: return
-    #         vis[node] = True
-    #         for x in self._node_down[node]:
-    #             dfs(x)
-    #     dfs(0)
-    #     return sum(vis) == self._instance.n+1
 
     def _change_edge(self, node_a, node_b):
         self._node_down[self._node_up[node_a]].remove(node_a)
         self._node_up[node_a] = node_b
         self._node_down[node_b].add(node_a)
 
-    def create_checkpoint(self, node):
+    def save(self, node):
         self._checkpoint[0] = self._cables_cost
         self._checkpoint[1] = self._subst_conn
         self._checkpoint[2] = self._crossings
@@ -95,7 +84,7 @@ class Solution:
         self._checkpoint[4] = self._node_up[node]
         self._checkpoint[5] = self._node_power.copy()
     
-    def restore(self):
+    def undo(self):
         self._cables_cost = self._checkpoint[0]
         self._subst_conn = self._checkpoint[1]
         self._crossings = self._checkpoint[2]

@@ -18,12 +18,12 @@ def sa(instance, T=1.0, alpha=0.99999, tl=10*60, seed=None):
             node_b = rng.integers(instance.n+1)
 
         e = S.cost
-        S.create_checkpoint(node_a)
+        S.save(node_a)
         S.one_opt(node_a, node_b)
         e = S.cost - e
 
         if e > 0 and rng.random() > np.exp(-k*e/T):
-            S.restore()
+            S.undo()
         
         if i > 0: i -= 1
         else: T *= alpha
