@@ -70,6 +70,10 @@ class Solution:
     @property
     def node_power(self):
         return self._node_power
+    
+    @property
+    def solution(self):
+        return [((i, self._node_up[i]), self._node_power[i]) for i in range(1, self._instance.n+1)]
 
     def _change_edge(self, node_a, node_b):
         self._node_down[self._node_up[node_a]].remove(node_a)

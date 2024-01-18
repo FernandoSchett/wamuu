@@ -5,10 +5,10 @@ from utils import prim_solution
 from cost import cost
 from time import time
 
-def sa(instance, T=1.0, alpha=0.99999, tl=10*60, seed=None):
+def sa(instance, T=1.0, alpha=0.99999, tl=10*60, seed=None, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
     i = instance.n*2
     rng = np.random.default_rng(seed)
-    S = Solution(instance, best_sweep(instance))
+    S = Solution(instance, best_sweep(instance, M1, M2, M3, M4))
     k = 1/cost(instance, prim_solution(instance), 0, 0, 0, 0, True)
     t = time()
     while time() - t < tl:
