@@ -21,8 +21,7 @@ class Tabulist:
     
     def _refresh(self):
         while len(self._tabu) > self._tenure:
-            self._ubat.add(self._tabu.index(0))
-            self._tabu.pop(0)
+            self._ubat.add(self._tabu.pop(0))
     
     def add(self, value):
         self._ubat.remove(value)
@@ -42,14 +41,14 @@ class Tabulist:
 
 
 def ts_node_from(instance, diversify_after=None, tl=10*60, seed=None, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
-    diversify_after = diversify_after or instance.n
+    diversify_after = diversify_after or instance.n*2
     rng = np.random.default_rng(seed)
     k = False
     i = 0
     S = Solution(instance, best_sweep(instance, M1, M2, M3, M4))
     Sf = Solution(instance, S.solution)
-    t = time()
     tabulist = Tabulist(range(1, instance.n+1), rng.integers((instance.n+1 if instance.n%2 else instance.n)//2, instance.n))
+    t = time()
     while time() - t < tl:
         i += 1
         best_cost = 1e18
@@ -84,14 +83,14 @@ def ts_node_from(instance, diversify_after=None, tl=10*60, seed=None, M1=1e9, M2
     return Sf
 
 def ts_node_to(instance, diversify_after=None, tl=10*60, seed=None, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
-    diversify_after = diversify_after or instance.n
+    diversify_after = diversify_after or instance.n*2
     rng = np.random.default_rng(seed)
     k = False
     i = 0
     S = Solution(instance, best_sweep(instance, M1, M2, M3, M4))
     Sf = Solution(instance, S.solution)
-    t = time()
     tabulist = Tabulist(range(instance.n+1), rng.integers((instance.n+1 if instance.n%2 else instance.n)//2, instance.n))
+    t = time()
     while time() - t < tl:
         i += 1
         best_cost = 1e18
@@ -126,17 +125,17 @@ def ts_node_to(instance, diversify_after=None, tl=10*60, seed=None, M1=1e9, M2=1
     return Sf
 
 def ts_arc(instance, diversify_after=None, tl=10*60, seed=None, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
-    diversify_after = diversify_after or instance.n
+    diversify_after = diversify_after or instance.n*2
     rng = np.random.default_rng(seed)
     k = False
     i = 0
     S = Solution(instance, best_sweep(instance, M1, M2, M3, M4))
     Sf = Solution(instance, S.solution)
-    t = time()
     tabulist = Tabulist(
         [(node_from, node_to) for node_from in range(1, instance.n+1) for node_to in range(instance.n+1)],
         rng.integers((instance.n+1 if instance.n%2 else instance.n)//2, instance.n)
     )
+    t = time()
     while time() - t < tl:
         i += 1
         best_cost = 1e18

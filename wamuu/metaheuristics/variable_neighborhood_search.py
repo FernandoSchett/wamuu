@@ -34,13 +34,13 @@ def vns(instance, Kmax, tl=10*60, seed=None, M1=1e9, M2=1e9, M3=1e9, M4=1e10):
                             best_cost = S.cost
                             best_move = (node_from, node_to)
                         S.undo()
-                if round(best_cost, 2) < round(S.cost, 2):
+                if best_cost < S.cost:
                     S.one_opt(best_move[0], best_move[1])
                 else:
                     break
             
             # Neighborhood Change
-            if round(S.cost, 2) < round(S0.cost, 2):
+            if S.cost < S0.cost:
                 S0 = Solution(instance, S.solution)
                 k = 1
             else:

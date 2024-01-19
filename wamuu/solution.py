@@ -53,7 +53,7 @@ class Solution:
     # as we take care of it for every step of manipulation
     @property
     def cost(self):
-        return (
+        return int(
             self._cables_cost +
             self._M2*max(0, self._subst_conn-self._instance.C) +
             self._M3*self._crossings

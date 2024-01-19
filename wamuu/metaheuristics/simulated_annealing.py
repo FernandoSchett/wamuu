@@ -28,6 +28,4 @@ def sa(instance, T=1.0, alpha=0.99999, tl=10*60, seed=None, M1=1e9, M2=1e9, M3=1
         if i > 0: i -= 1
         else: T = max(1e-300, T*alpha)
 
-        if (S._crossings < 0):
-            return S
     return S
